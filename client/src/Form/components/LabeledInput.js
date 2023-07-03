@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './LabeledInput.css';
 
-const LabeledInput = ({ label, id, type, value, onChange }) => {
+const LabeledInput = ({ label, id, type, value, onChange, autoComplete }) => {
   const [activeClass, setActiveClass] = useState(false);
 
   useEffect(() => {
@@ -22,6 +22,7 @@ const LabeledInput = ({ label, id, type, value, onChange }) => {
         id={id}
         value={value}
         onChange={onChange}
+        autoComplete={autoComplete ? 'on' : 'off'}
       />
     </div>
   );

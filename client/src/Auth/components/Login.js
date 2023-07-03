@@ -44,13 +44,13 @@ const Login = () => {
       spacing={0}
       direction="column"
       alignItems="center"
-      justify="center"
+      justifyContent="center"
       style={{ minHeight: '100vh' }}
     >
       <Grid item xs={3}>
         <Card variant="outlined">
           <CardContent>
-            <Typography color="text.secondary" gutterBottom variant="h5" component="h2">
+            <Typography color="textSecondary" gutterBottom variant="h5" component="h2">
               Login
             </Typography>
             {error && <div className="login-error">Error: {error.message}</div>}
@@ -62,6 +62,7 @@ const Login = () => {
                   type="text"
                   value={formData.username}
                   onChange={handleInputChange}
+                  autoComplete={true}
                 />
               </Grid>
               <Grid item xs={12} className="mb-3">
@@ -71,6 +72,7 @@ const Login = () => {
                   type="password"
                   value={formData.password}
                   onChange={handleInputChange}
+                  autoComplete={true}
                 />
               </Grid>
               <Button style={{ width: '100%' }} variant="contained" type="submit">Log In</Button>
@@ -79,7 +81,7 @@ const Login = () => {
           </CardContent>
           <CardActions>
 
-            <Typography variant="body2" color="text.secondary" className="login-text">
+            <Typography variant="body2" color="textSecondary" className="login-text">
               Not registered? <Link to="/register" className="login-link">Sign up here</Link>
             </Typography>
 

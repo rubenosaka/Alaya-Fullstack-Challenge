@@ -21,19 +21,25 @@ const SignupForm = () => {
 
   const [errorMessages, setErrorMessages] = useState([]);
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
 
     if (!isFormValid()) {
       return;
     }
+    
+    try {
+      const singUpResponse = await dispatch(signupUserRequest(formData));
 
-    dispatch(signupUserRequest(formData));
-    setFormData({
-      username: '',
-      password: '',
-      confirmPassword: '',
-    });
+    } catch (error) {
+      console.log(error);
+      setFormData({
+        password: '',
+        confirmPassword: '',
+      });
+    }
+
+
   };
 
   const handleInputChange = (e) => {
@@ -64,7 +70,7 @@ const SignupForm = () => {
     spacing={0}
     direction="column"
     alignItems="center"
-    justify="center"
+    justifyContent="center"
     style={{ minHeight: '100vh' }}
   >
     <Grid item xs={3}>
@@ -72,7 +78,7 @@ const SignupForm = () => {
    
             <CardContent>
              
-              <Typography color="text.secondary" gutterBottom variant="h5" component="h2">
+              <Typography color="textSecondary" gutterBottom variant="h5" component="h2">
                   Join Us!
               </Typography>
         
@@ -86,7 +92,7 @@ const SignupForm = () => {
                     </ul>
                   )}
               <form onSubmit={handleSignup}>
-                <Grid item xs={12} class="mb-3">
+                <Grid item xs={12} className="mb-3">
                   <LabeledInput
                     label="Username"
                     id="username"
@@ -95,7 +101,7 @@ const SignupForm = () => {
                     onChange={handleInputChange}
                   />
                 </Grid>
-                <Grid item xs={12} class="mb-3">
+                <Grid item xs={12} className="mb-3">
                   <LabeledInput
                     label="Password"
                     id="password"
@@ -104,7 +110,7 @@ const SignupForm = () => {
                     onChange={handleInputChange}
                   />
                 </Grid>
-                <Grid item xs={12} class="mb-3">
+                <Grid item xs={12} className="mb-3">
                   <LabeledInput
                     label="Confirm Password"
                     id="confirmPassword"
@@ -120,7 +126,7 @@ const SignupForm = () => {
         
         <CardActions>
 
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="textSecondary">
             Already have an account? <Link to="/">Log in here</Link>
           </Typography>
 

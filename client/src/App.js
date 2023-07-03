@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createTheme , ThemeProvider } from '@material-ui/core/styles';
 import './App.css';
-import { Route, BrowserRouter, Switch } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import Login from './Auth/components/Login'; 
 import SignupForm from './Auth/components/SingupForm';
 import PostListPage from './Post/pages/PostListPage/PostListPage';
@@ -21,25 +21,25 @@ const theme = createTheme ({
 });
 
 function App(props) {
-  return (
+    const location = useLocation();
+    const activeSection = location.pathname.split('/')[1];
+    return (
       <ThemeProvider theme={theme}>
           <div className="w-100">
-              <Navbar />
+              <Navbar activeSection={activeSection} />
               <div className="w-100">
-                  <Provider store={props.store}>
-                    <BrowserRouter>
-                      <Switch>                        
-                          <Route path="/" exact component={Login} />
-                          <Route path="/register" exact component={SignupForm} />
-                          <Route path="/posts" exact component={PostListPage} />
-                          <Route path="/posts/:cuid/:slug" exact component={PostDetailPage} />
-                      </Switch>
-                    </BrowserRouter>
+                  <Provider store={props.store}>                    
+                    <Switch>                        
+                        <Route path="/" exact component={Login} />
+                        <Route path="/register" exact component={SignupForm} />
+                        <Route path="/posts" exact component={PostListPage} />
+                        <Route path="/posts/:cuid/:slug" exact component={PostDetailPage} />
+                    </Switch>            
                   </Provider>
               </div>
           </div>
       </ThemeProvider>
-);
+    );
 }
 
 App.propTypes = {

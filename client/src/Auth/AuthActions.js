@@ -10,16 +10,44 @@ export function singupgUserAction(user) {
   };
 }
 
+export const signupSuccess = (user) => {
+  return {
+    type: 'SIGNUP_SUCCESS',
+    payload: user,
+  };
+};
+
+export const signupFailure = (error) => {
+  console.log(error);
+  return {
+    type: 'SIGNUP_FAILURE',
+    payload: error,
+  };
+};
+
 export function signupUserRequest(user) {
-  return (dispatch) => {
-    return callApi('users', 'post', {
-      user: {
-        name: user.name,
-        password: user.password,
-      },
-    }).then(res => dispatch(signupSuccess(res.user)));
+  return async (dispatch) => {
+    try {
+      const response = await callApi('users/signup', 'post', {      
+        username: user.username,
+        password: user.password,      
+      });
+
+      if (response.user) {
+        dispatch(signupSuccess({ message: 'User created successfully!' }));
+      } else if (response.error) {
+        dispatch(signupFailure({ message: response.error }));
+      } else {
+        dispatch(signupFailure({ message: 'Invalid Credentials' }))
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
+
+
+
 
 export function loginUserAction(user) {
   return {
@@ -30,12 +58,24 @@ export function loginUserAction(user) {
 
 export function loginUserRequest(user) {
   return (dispatch) => {
+    console.log(user);
     return callApi('users/login', 'post', {
       user: {
-        name: user.name,
+        username: user.username,
         password: user.password,
       },
-    }).then(res => dispatch(signupSuccess(res.user)));
+    }).then(res => {
+      if (res.user) {
+        dispatch(loginSuccess(res.user))
+      } else if(res.error) {
+        console.log(res.error);
+      }else{
+        console.log('Invalid credentials');
+      }
+    }).catch(error => {
+      console.log(error);
+    });
+
   };
 }
 
@@ -52,19 +92,6 @@ export function loginUserRequest(user) {
 //   };
 // };
 
-export const signupSuccess = (user) => {
-  return {
-    type: 'SIGNUP_SUCCESS',
-    payload: user,
-  };
-};
-
-export const signupFailure = (error) => {
-  return {
-    type: 'SIGNUP_FAILURE',
-    payload: error,
-  };
-};
 
 export const loginSuccess = (user) => {
   return {
