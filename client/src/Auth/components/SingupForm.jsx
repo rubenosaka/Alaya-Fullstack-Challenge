@@ -8,7 +8,6 @@ import { Alert, AlertTitle } from '@mui/lab';
 import LabeledInput from '../../Form/components/LabeledInput';
 
 
-
 const SignupForm = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(state => state.auth.user !== null);
@@ -21,6 +20,16 @@ const SignupForm = () => {
   });
 
   const [errorMessages, setErrorMessages] = useState([]);
+
+  const isFormValid = () => {
+    const errors = validateSignupForm(
+      formData.username,
+      formData.password,
+      formData.confirmPassword
+    );
+    setErrorMessages(errors);
+    return errors.length === 0;
+  };
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -50,30 +59,19 @@ const SignupForm = () => {
     }));
   };
 
-  const isFormValid = () => {
-    const errors = validateSignupForm(
-      formData.username,
-      formData.password,
-      formData.confirmPassword
-    );
-    setErrorMessages(errors);
-    return errors.length === 0;
-  };
-
   if (isAuthenticated) {
     return <Navigate to="/posts" />;
   }
 
   return (
-  <Grid
-    container
-    spacing={0}
-    direction="column"
-    alignItems="center"
-    justifyContent="center"
-    style={{ minHeight: '100vh' }}
-  >
-    <Grid item xs={3}>
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justifyContent="top"     
+    >
+    <Grid item xs={3} style={{ maxWidth: '300px', display: 'flex', alignItems: 'center' }}>
       <Card variant="outlined">
    
             <CardContent>
@@ -83,13 +81,16 @@ const SignupForm = () => {
               </Typography>
         
 
-                  {error && <Alert  key="index" severity="error">{error.message}</Alert>}
+                  {error && <Alert severity="error">{error.message}</Alert>}
                   {errorMessages.length > 0 && (
-                    <ul className="signup-error-messages">
-                      {errorMessages.map((errorMsg, index) => (
-                       <Typography key="index" color="error">{errorMsg}</Typography>
-                      ))}
-                    </ul>
+                    <Alert severity="error">
+                    <AlertTitle>Error</AlertTitle>
+                      <ul className="signup-error-messages">
+                        {errorMessages.map((errorMsg, index) => (
+                        <Typography component="li" key={index} color="error">{errorMsg}</Typography>
+                        ))}
+                      </ul>
+                    </Alert>                   
                   )}
               <form onSubmit={handleSignup}>
                 <Grid item xs={12} className="mb-3">

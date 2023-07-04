@@ -2,27 +2,50 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
 import { loginUserRequest } from '../AuthActions';
+import { validateLoginForm } from '../ValidationUtils';
 import { Card, CardContent, Typography, Button, Grid, CardActions } from '@mui/material';
 import LabeledInput from '../../Form/components/LabeledInput';
+import { Alert, AlertTitle } from '@mui/lab';
 
 const Login = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(state => state.auth.user !== null);
-  const error = useSelector(state => state.auth.error);
 
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    dispatch(loginUserRequest(formData));
-    setFormData({
-      username: '',
-      password: '',
-    });
+  const [errorMessages, setErrorMessages] = useState(null);
+
+  const isFormValid = () => {
+    const errors = validateLoginForm(
+      formData.username,
+      formData.password,
+    );
+    setErrorMessages(errors);
+    return errors.length === 0;
   };
+
+  const handleLogin = async (e) => {
+
+    e.preventDefault();
+
+    if (!isFormValid()) {
+      return;
+    }
+    
+    try {
+      await dispatch(loginUserRequest(formData));
+    } catch (error) {
+      console.log(error);
+      setFormData({
+        password: '',
+      });
+    }
+
+  };
+
 
   const handleInputChange = (e) => {
     e.persist();
@@ -32,11 +55,10 @@ const Login = () => {
     }));
   };
 
-  useEffect(() => {
-    if (isAuthenticated) {
-         return <Navigate to="/posts" />;
-    }
-  }, [isAuthenticated]);
+  if (isAuthenticated) {
+    return <Navigate to="/posts" />;
+  }
+
 
   return (
     <Grid
@@ -44,16 +66,22 @@ const Login = () => {
       spacing={0}
       direction="column"
       alignItems="center"
-      justifyContent="center"
-      style={{ minHeight: '100vh' }}
+      justifyContent="top"     
     >
-      <Grid item xs={3}>
+      <Grid item xs={3} style={{ maxWidth: '300px' }}>
         <Card variant="outlined">
           <CardContent>
             <Typography color="textSecondary" gutterBottom variant="h5" component="h2">
               Login
             </Typography>
-            {error && <div className="login-error">Error: {error.message}</div>}
+            {errorMessages && (           
+              <Alert icon={false} severity="error">    
+                <AlertTitle>Error</AlertTitle>          
+                {errorMessages.map((errorMsg, index) => (
+                  <Typography component="div" key={index} color="error" style={{ fontSize: '10px' }}>- {errorMsg}</Typography>
+                ))}       
+              </Alert>      
+            )}
             <form onSubmit={handleLogin}>
               <Grid item xs={12} className="mb-3">
                 <LabeledInput
@@ -75,16 +103,15 @@ const Login = () => {
                   autoComplete={true}
                 />
               </Grid>
-              <Button style={{ width: '100%' }} variant="contained" type="submit">Log In</Button>
+              <Button style={{ width: '100%' }} variant="contained" type="submit">
+                Log In
+              </Button>
             </form>
-
           </CardContent>
           <CardActions>
-
             <Typography variant="body2" color="textSecondary" className="login-text">
               Not registered? <Link to="/register" className="login-link">Sign up here</Link>
             </Typography>
-
           </CardActions>
         </Card>
       </Grid>

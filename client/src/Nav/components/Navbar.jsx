@@ -1,4 +1,3 @@
-import React from 'react';
 import { Toolbar, AppBar, Typography, Link } from '@mui/material'
 
 function Navbar({ activeSection }) {
@@ -29,7 +28,7 @@ function Navbar({ activeSection }) {
   };
 
   return (
-    <AppBar position="fixed">
+    <AppBar position="static">
       <Toolbar>
         <Typography variant="h6">
           <Link href={getLinkPath(activeSection)} className="text-white">

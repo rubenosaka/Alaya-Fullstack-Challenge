@@ -60,10 +60,8 @@ export function loginUserRequest(user) {
   return (dispatch) => {
     console.log(user);
     return callApi('users/login', 'post', {
-      user: {
-        username: user.username,
-        password: user.password,
-      },
+      username: user.username,
+      password: user.password,      
     }).then(res => {
       if (res.user) {
         dispatch(loginSuccess(res.user))
