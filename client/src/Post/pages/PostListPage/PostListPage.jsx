@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 // Import Components
@@ -30,7 +30,7 @@ const PostListPage = ({ showAddPost }) => {
   };
 
   if (!isAuthenticated) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" />;
   }
 
 

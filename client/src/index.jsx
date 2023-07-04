@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
@@ -13,4 +12,4 @@ const initialStore = configureStore({
     middleware: [thunk],
   });
 
-ReactDOM.render(<BrowserRouter><App store={initialStore}/></BrowserRouter>, document.getElementById('root'));
+ReactDOM.render(<BrowserRouter><App store={initialStore}/>Potato</BrowserRouter>, document.getElementById('root'));

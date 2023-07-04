@@ -1,13 +1,12 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { createTheme , ThemeProvider } from '@material-ui/core/styles';
 import './App.css';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import Login from './Auth/components/Login'; 
 import SignupForm from './Auth/components/SingupForm';
 import PostListPage from './Post/pages/PostListPage/PostListPage';
 import PostDetailPage from './Post/pages/PostDetailPage/PostDetailPage';
 import { Provider } from 'react-redux';
+import { createTheme, ThemeProvider } from '@mui/material';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './Nav/components/Navbar';
@@ -29,12 +28,12 @@ function App(props) {
               <Navbar activeSection={activeSection} />
               <div className="w-100">
                   <Provider store={props.store}>                    
-                    <Switch>                        
-                        <Route path="/" exact component={Login} />
-                        <Route path="/register" exact component={SignupForm} />
-                        <Route path="/posts" exact component={PostListPage} />
-                        <Route path="/posts/:cuid/:slug" exact component={PostDetailPage} />
-                    </Switch>            
+                    <Routes>  
+                        <Route path="/" exact element={<Login />}></Route>                     
+                        <Route path="/register" exact element={<SignupForm />} />
+                        <Route path="/posts" exact element={<PostListPage showAddPost={true}/>} />
+                        <Route path="/posts/:cuid/:slug" exact element={<PostDetailPage />} />               
+                    </Routes>            
                   </Provider>
               </div>
           </div>

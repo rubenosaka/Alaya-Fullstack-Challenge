@@ -4,6 +4,7 @@ const cors = require('cors');
 const db = require('./db');
 const postsRoutes = require('./routes/post.routes');
 const usersRoutes = require('./routes/user.routes');
+const path = require('path');
 
 const app = express();
 const apiPort = 3000;

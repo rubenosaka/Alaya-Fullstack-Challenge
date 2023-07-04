@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { signupUserRequest } from '../AuthActions';
 import { validateSignupForm } from '../ValidationUtils';
-import { Card, CardContent, CardActions, Typography, Button, Grid } from '@material-ui/core';
+import { Card, CardContent, CardActions, Typography, Button, Grid } from '@mui/material';
+import { Alert, AlertTitle } from '@mui/lab'; 
 import LabeledInput from '../../Form/components/LabeledInput';
 
 
@@ -29,8 +30,7 @@ const SignupForm = () => {
     }
     
     try {
-      const singUpResponse = await dispatch(signupUserRequest(formData));
-
+      await dispatch(signupUserRequest(formData));
     } catch (error) {
       console.log(error);
       setFormData({
@@ -61,7 +61,7 @@ const SignupForm = () => {
   };
 
   if (isAuthenticated) {
-    return <Redirect to="/posts" />;
+    return <Navigate to="/posts" />;
   }
 
   return (
@@ -83,11 +83,11 @@ const SignupForm = () => {
               </Typography>
         
 
-                  {error && <div>Error: {error.message}</div>}
+                  {error && <Alert  key="index" severity="error">{error.message}</Alert>}
                   {errorMessages.length > 0 && (
                     <ul className="signup-error-messages">
                       {errorMessages.map((errorMsg, index) => (
-                        <li key={index}>{errorMsg}</li>
+                       <Typography key="index" color="error">{errorMsg}</Typography>
                       ))}
                     </ul>
                   )}

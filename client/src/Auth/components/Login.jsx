@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { loginUserRequest } from '../AuthActions';
-import { Card, CardContent, Typography, Button, Grid, CardActions } from '@material-ui/core';
+import { Card, CardContent, Typography, Button, Grid, CardActions } from '@mui/material';
 import LabeledInput from '../../Form/components/LabeledInput';
 
 const Login = () => {
@@ -34,7 +34,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-         return <Redirect to="/posts" />;
+         return <Navigate to="/posts" />;
     }
   }, [isAuthenticated]);
 

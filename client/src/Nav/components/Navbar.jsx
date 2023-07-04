@@ -1,8 +1,5 @@
 import React from 'react';
-import Toolbar from '@material-ui/core/Toolbar';
-import AppBar from '@material-ui/core/AppBar';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
+import { Toolbar, AppBar, Typography, Link } from '@mui/material'
 
 function Navbar({ activeSection }) {
   const getLinkText = (section) => {
