@@ -1,6 +1,11 @@
-import { Toolbar, AppBar, Typography, Link } from '@mui/material'
+import { useSelector } from 'react-redux';
+import { Toolbar, AppBar, Typography, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
+import Menu from './Menu';
 
 function Navbar({ activeSection }) {
+  const isAuthenticated = useSelector(state => state.auth.user !== null);
+  const user = useSelector(state => state.auth.user);
   const getLinkText = (section) => {
     switch (section) {
       case '':
@@ -27,14 +32,18 @@ function Navbar({ activeSection }) {
     }
   };
 
+  const rightButton = isAuthenticated ? <Button color="inherit">Wellcome {user.username}</Button> : <Button component={Link} to="/login">Login</Button>
+  console.log(isAuthenticated);
   return (
-    <AppBar position="static">
+    <AppBar position="static" className="text-white">
       <Toolbar>
-        <Typography variant="h6">
+        <Menu />       
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>
           <Link href={getLinkPath(activeSection)} className="text-white">
-            {getLinkText(activeSection)}
+            Alaya Full Stack Challange | {getLinkText(activeSection)}
           </Link>
         </Typography>
+        {rightButton}
       </Toolbar>
     </AppBar>
   );

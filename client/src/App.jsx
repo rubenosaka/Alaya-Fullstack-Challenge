@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import './App.css';
 import { Route, Routes, useLocation } from 'react-router-dom';
+import AuthRedirect from './Auth/components/AuthRedirect';
 import Login from './Auth/components/Login'; 
 import SignupForm from './Auth/components/SingupForm';
 import PostListPage from './Post/pages/PostListPage/PostListPage';
@@ -24,19 +25,27 @@ function App(props) {
     const activeSection = location.pathname.split('/')[1];
     return (
       <ThemeProvider theme={theme}>
-          <div className="w-100">
-            <Box style={{padding:'15px', marginBottom:'15px'}}>
-                <Navbar activeSection={activeSection} />
-            </Box>               
-            <Provider store={props.store}>                    
-              <Routes>  
-                  <Route path="/" exact element={<Login />}></Route>                     
-                  <Route path="/register" exact element={<SignupForm />} />
-                  <Route path="/posts" exact element={<PostListPage showAddPost={true}/>} />
-                  <Route path="/posts/:cuid/:slug" exact element={<PostDetailPage />} />               
-              </Routes>            
-            </Provider>              
-          </div>
+            
+            <div className="w-100">
+                <Provider store={props.store}>   
+                <Box style={{padding:'15px', marginBottom:'15px'}}>
+                    <Navbar activeSection={activeSection} />
+                </Box>         
+                <AuthRedirect
+                    activeSection={location.pathname}
+                    loginRoute="/login"
+                    registerRoute="/register"
+                    defaultRoute="/"
+                />
+                <Routes>  
+                    <Route path="/" exact element={<PostListPage showAddPost={false}/>}></Route>
+                    <Route path="/login" exact element={<Login />}></Route>                     
+                    <Route path="/register" exact element={<SignupForm />} />
+                    <Route path="/posts" exact element={<PostListPage showAddPost={true}/>} />
+                    <Route path="/posts/:cuid/:slug" exact element={<PostDetailPage />} />               
+                </Routes>            
+                </Provider>              
+            </div>
       </ThemeProvider>
     );
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
 import { loginUserRequest } from '../AuthActions';
@@ -10,13 +10,14 @@ import { Alert, AlertTitle } from '@mui/lab';
 const Login = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(state => state.auth.user !== null);
-
+  const error = useSelector(state => state.auth.error);
+  
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
 
-  const [errorMessages, setErrorMessages] = useState(null);
+  const [errorMessages, setErrorMessages] = useState([]);
 
   const isFormValid = () => {
     const errors = validateLoginForm(
@@ -46,7 +47,6 @@ const Login = () => {
 
   };
 
-
   const handleInputChange = (e) => {
     e.persist();
     setFormData(prevFormData => ({
@@ -74,7 +74,8 @@ const Login = () => {
             <Typography color="textSecondary" gutterBottom variant="h5" component="h2">
               Login
             </Typography>
-            {errorMessages && (           
+            {error && <Alert severity="error">{error.message}</Alert>}
+            {errorMessages.length > 0  && (           
               <Alert icon={false} severity="error">    
                 <AlertTitle>Error</AlertTitle>          
                 {errorMessages.map((errorMsg, index) => (

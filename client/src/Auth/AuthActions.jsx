@@ -56,9 +56,22 @@ export function loginUserAction(user) {
   };
 }
 
+export const loginSuccess = (user) => {
+  return {
+    type: 'LOGIN_SUCCESS',
+    payload: user,
+  };
+};
+
+export const loginFailure = (error) => {
+  return {
+    type: 'LOGIN_FAILURE',
+    payload: error,
+  };
+};
+
 export function loginUserRequest(user) {
   return (dispatch) => {
-    console.log(user);
     return callApi('users/login', 'post', {
       username: user.username,
       password: user.password,      
@@ -76,34 +89,6 @@ export function loginUserRequest(user) {
 
   };
 }
-
-// export const signupUser = (userData) => {
-//   return async (dispatch) => {
-//     try {
-//       const response = await callApi('users', 'post', userData);
-//       const token = response.data.token;
-//       localStorage.setItem('token', token);
-//       dispatch(signupSuccess(response.data.user));
-//     } catch (error) {
-//       dispatch(signupFailure(error.response.data));
-//     }
-//   };
-// };
-
-
-export const loginSuccess = (user) => {
-  return {
-    type: 'LOGIN_SUCCESS',
-    payload: user,
-  };
-};
-
-export const loginFailure = (error) => {
-  return {
-    type: 'LOGIN_FAILURE',
-    payload: error,
-  };
-};
 
 export const logoutUser = () => {
   localStorage.removeItem('token');

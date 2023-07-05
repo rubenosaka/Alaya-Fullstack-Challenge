@@ -1,7 +1,11 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { TextField, Button } from '@mui/material'
 import { styled } from '@mui/system';
+
+
+
 
 const StyledContainer = styled('div')(({ theme }) => ({
   root: {
@@ -13,11 +17,11 @@ const StyledContainer = styled('div')(({ theme }) => ({
 
 
 const PostCreateWidget = ({ addPost }) => {
-
+  const user = useSelector(state => state.auth.user);
   const [state, setState] = useState({});
 
   const submit = () => {
-    if (state.name && state.title && state.content) {
+    if (user.username && state.title && state.content) {
       addPost(state);
     }
   };
@@ -33,10 +37,10 @@ const PostCreateWidget = ({ addPost }) => {
   return (
     <StyledContainer className="d-flex flex-column my-4 w-100">
         <h3>Create new post</h3>
-        <TextField variant="filled" label="Author name" name="name" onChange={handleChange} />
+        <TextField variant="filled" label="Author name" name="username" onChange={handleChange} value={user.username} disabled={true}/>
         <TextField variant="filled" label="Post title" name="title" onChange={handleChange} />
         <TextField variant="filled" multiline rows="4" label="Post content" name="content" onChange={handleChange} />
-        <Button className="mt-4" variant="contained" color="primary" onClick={() => submit()} disabled={!state.name || !state.title || !state.content}>
+        <Button className="mt-4" variant="contained" color="primary" onClick={() => submit()} disabled={!user.username || !state.title || !state.content}>
             Submit
         </Button>
     </StyledContainer>
