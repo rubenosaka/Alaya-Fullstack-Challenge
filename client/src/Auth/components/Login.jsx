@@ -5,7 +5,8 @@ import { loginUserRequest } from '../AuthActions';
 import { validateLoginForm } from '../ValidationUtils';
 import { Card, CardContent, Typography, Button, Grid, CardActions } from '@mui/material';
 import LabeledInput from '../../Form/components/LabeledInput';
-import { Alert, AlertTitle } from '@mui/lab';
+import FormErrors from '../../Form/components/FormErrors';
+
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -74,15 +75,7 @@ const Login = () => {
             <Typography color="textSecondary" gutterBottom variant="h5" component="h2">
               Login
             </Typography>
-            {error && <Alert severity="error">{error.message}</Alert>}
-            {errorMessages.length > 0  && (           
-              <Alert icon={false} severity="error">    
-                <AlertTitle>Error</AlertTitle>          
-                {errorMessages.map((errorMsg, index) => (
-                  <Typography component="div" key={index} color="error" style={{ fontSize: '10px' }}>- {errorMsg}</Typography>
-                ))}       
-              </Alert>      
-            )}
+            <FormErrors error={error} errorMessages={errorMessages} />
             <form onSubmit={handleLogin}>
               <Grid item xs={12} className="mb-3">
                 <LabeledInput

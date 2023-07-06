@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './LabeledInput.css';
 
 const LabeledInput = ({ label, id, type, value, onChange, autoComplete }) => {

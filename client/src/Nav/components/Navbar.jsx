@@ -32,7 +32,7 @@ function Navbar({ activeSection }) {
     }
   };
 
-  const rightButton = isAuthenticated ? <Button color="inherit">Wellcome {user.username}</Button> : <Button component={Link} to="/login">Login</Button>
+  const rightButton = isAuthenticated ? <Button color="inherit">Wellcome {user.username}</Button> : <Button className="text-white" component={Link} to="/login">Login</Button>
   console.log(isAuthenticated);
   return (
     <AppBar position="static" className="text-white">
