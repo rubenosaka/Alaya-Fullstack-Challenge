@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 // Import Components
@@ -10,10 +9,8 @@ import { addPostRequest, deletePostRequest, fetchPosts } from '../../PostActions
 import Logo from '../../../logo.svg';
 
 const PostListPage = ({ showAddPost }) => {
-
   const dispatch = useDispatch();
   const posts = useSelector(state => state.posts.data);
-  const isAuthenticated = useSelector(state => state.auth.user !== null);
 
   useEffect(() => {
     dispatch(fetchPosts());
@@ -29,11 +26,6 @@ const PostListPage = ({ showAddPost }) => {
     dispatch(addPostRequest(post));
   };
 
-  if (!isAuthenticated) {
-    return <Navigate to="/" />;
-  }
-
-
   return (
     <div className="container">
       <div className="row">
@@ -46,9 +38,10 @@ const PostListPage = ({ showAddPost }) => {
       </div>
       <hr />
       <div className="row">
-        <div className="col-6">
-          <PostCreateWidget addPost={handleAddPost} showAddPost={showAddPost} />
-        </div>
+        {showAddPost && <div className="col-6">
+          <PostCreateWidget addPost={handleAddPost}  />
+        </div>}
+       
         <div className="col-6">
           <PostList handleDeletePost={handleDeletePost} posts={posts} />
         </div>

@@ -21,15 +21,14 @@ const theme = createTheme ({
 });
 
 function App(props) {
-    const location = useLocation();
-    const activeSection = location.pathname.split('/')[1];
-    return (
+    const location = useLocation(); 
+     return (
       <ThemeProvider theme={theme}>
             
             <div className="w-100">
                 <Provider store={props.store}>   
                 <Box style={{padding:'15px', marginBottom:'15px'}}>
-                    <Navbar activeSection={activeSection} />
+                    <Navbar activeSection={location.pathname} />
                 </Box>         
                 <AuthRedirect
                     activeSection={location.pathname}

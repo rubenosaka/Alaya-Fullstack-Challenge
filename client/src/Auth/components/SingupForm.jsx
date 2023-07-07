@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { signupUserRequest } from '../AuthActions';
 import { validateSignupForm } from '../ValidationUtils';
 import { Card, CardContent, CardActions, Typography, Button, Grid } from '@mui/material';
@@ -10,9 +10,9 @@ import LabeledInput from '../../Form/components/LabeledInput';
 
 const SignupForm = () => {
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector(state => state.auth.user !== null);
   const error = useSelector(state => state.auth.error);
-
+  const decodedToken = decodeAuthToken();
+  
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -58,10 +58,6 @@ const SignupForm = () => {
       [e.target.id]: e.target.value,
     }));
   };
-
-  if (isAuthenticated) {
-    return <Navigate to="/posts" />;
-  }
 
   return (
     <Grid

@@ -1,14 +1,16 @@
-import { useSelector } from 'react-redux';
+import { decodeAuthToken } from '../../Auth/Auth';
 import { Toolbar, AppBar, Typography, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useMatch, Link } from 'react-router-dom';
 import Menu from './Menu';
 
+
 function Navbar({ activeSection }) {
-  const isAuthenticated = useSelector(state => state.auth.user !== null);
-  const user = useSelector(state => state.auth.user);
+  const decodedToken = decodeAuthToken();
+  const path = useMatch(activeSection);
+
   const getLinkText = (section) => {
     switch (section) {
-      case '':
+      case '/':
         return 'Home';
       case 'register':
         return 'Register';
@@ -21,7 +23,7 @@ function Navbar({ activeSection }) {
 
   const getLinkPath = (section) => {
     switch (section) {
-      case '':
+      case '/':
         return '/';
       case 'register':
         return '/register';
@@ -31,16 +33,15 @@ function Navbar({ activeSection }) {
         return '/';
     }
   };
+  const rightButton = decodedToken && decodedToken.userName ? <Button color="inherit">Wellcome {decodedToken.userName}</Button> : <Button className="text-white" component={Link} to="/login">Login</Button>
 
-  const rightButton = isAuthenticated ? <Button color="inherit">Wellcome {user.username}</Button> : <Button className="text-white" component={Link} to="/login">Login</Button>
-  console.log(isAuthenticated);
   return (
     <AppBar position="static" className="text-white">
       <Toolbar>
         <Menu />       
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          <Link href={getLinkPath(activeSection)} className="text-white">
-            Alaya Full Stack Challange | {getLinkText(activeSection)}
+          <Link href={getLinkPath(path)} className="text-white">
+            Alaya Full Stack Challange | {getLinkText(path)}
           </Link>
         </Typography>
         {rightButton}

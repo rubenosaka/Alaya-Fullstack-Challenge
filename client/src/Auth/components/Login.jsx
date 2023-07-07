@@ -7,15 +7,20 @@ import { Card, CardContent, Typography, Button, Grid, CardActions } from '@mui/m
 import LabeledInput from '../../Form/components/LabeledInput';
 import FormErrors from '../../Form/components/FormErrors';
 
-
 const Login = () => {
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector(state => state.auth.user !== null);
   const error = useSelector(state => state.auth.error);
-  
+
+  const isAuthenticated = useSelector((state) => {
+    if(state.auth.user){
+      return state.auth.user
+    }
+    return null;
+  }); 
+
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
+    username: 'Rubenosaka',
+    password: 'Osaka@22',
   });
 
   const [errorMessages, setErrorMessages] = useState([]);
@@ -59,8 +64,6 @@ const Login = () => {
   if (isAuthenticated) {
     return <Navigate to="/posts" />;
   }
-
-
   return (
     <Grid
       container

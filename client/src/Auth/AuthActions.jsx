@@ -1,4 +1,5 @@
 import callApi from '../util/apiCaller';
+import { setAuthToken } from './Auth';
 
 export const SIGNUP_USER = 'ADD_USER';
 export const LOGIN_USER = 'LOGIN_USER';
@@ -32,22 +33,21 @@ export function signupUserRequest(user) {
         username: user.username,
         password: user.password,      
       });
-
-      if (response.user) {
+      console.log(response);
+      if (response.user) { 
+        setAuthToken(response.token); 
         dispatch(signupSuccess({ message: 'User created successfully!' }));
+        history.push('/posts'); 
       } else if (response.error) {
         dispatch(signupFailure({ message: response.error }));
       } else {
         dispatch(signupFailure({ message: 'Invalid Credentials' }))
-      }
+      }      
     } catch (error) {
       console.log(error);
     }
   };
 }
-
-
-
 
 export function loginUserAction(user) {
   return {
@@ -75,13 +75,15 @@ export function loginUserRequest(user) {
     return callApi('users/login', 'post', {
       username: user.username,
       password: user.password,      
-    }).then(res => {
-      if (res.user) {
-        dispatch(loginSuccess(res.user))
-      } else if(res.error) {
-        console.log(res.error);
-      }else{
-        console.log('Invalid credentials');
+    }).then(response => {
+      console.log(response);
+      if (response.user) {
+        setAuthToken(response.token);
+        dispatch(loginSuccess(response.user))
+      } else if (response.error) {
+        dispatch(loginFailure({ message: response.error }));
+      } else {
+        dispatch(loginFailure({ message: 'Invalid Credentials' }));
       }
     }).catch(error => {
       console.log(error);
