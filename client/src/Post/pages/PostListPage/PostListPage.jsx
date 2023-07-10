@@ -14,7 +14,7 @@ const PostListPage = ({ showAddPost }) => {
 
   useEffect(() => {
     dispatch(fetchPosts());
-  },[dispatch]);
+  }, [dispatch]);
 
   const handleDeletePost = post => {
     if (confirm('Do you want to delete this post')) { // eslint-disable-line
@@ -43,7 +43,7 @@ const PostListPage = ({ showAddPost }) => {
         </div>}
        
         <div className="col-6">
-          <PostList handleDeletePost={handleDeletePost} posts={posts} />
+          {posts && posts.length > 0 ? <PostList handleDeletePost={handleDeletePost} posts={posts} /> : 'Loading...'}
         </div>
       </div>
     </div>

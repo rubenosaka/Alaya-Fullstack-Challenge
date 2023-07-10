@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { TextField, Button } from '@mui/material'
 import { styled } from '@mui/system';
 import { decodeAuthToken } from '../../Auth/Auth';
-import {Cloudinary} from "@cloudinary/url-gen";
 import FileInput from '../../Form/components/FileInput';
 
 
@@ -38,13 +37,6 @@ const PostCreateWidget = ({ addPost }) => {
     });
   };
 
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: 'demo'
-    }
-  });
-
-  const myImage = cld.image('sample');
 
   return (
     <StyledContainer className="d-flex flex-column my-4 w-100">

@@ -89,13 +89,6 @@ deletePost = async (req, res) => {
   });
 };
 
-async function handleUpload(file) {
-  const res = await cloudinary.uploader.upload(file, {
-    resource_type: "auto",
-  });
-  return res;
-}
-
 
 /**
  * Upload image to cloudinary
@@ -104,12 +97,13 @@ async function handleUpload(file) {
  * @returns string
  */
 imageUpload = async (req, res) => {
-  console.log(req.body);
+
   console.log(req.file);
-  // const b64 = Buffer.from(req.body.file.buffer).toString("base64");
-  // let dataURI = "data:" + req.body.file.mimetype + ";base64," + b64;
-  // const cldRes = await handleUpload(dataURI);
-  // res.json(cldRes);
+  const cloudinaryImage = await cloudinary.uploader
+  .upload(req.file.path);
+  
+  res.json({ cloudinaryImage });
+
 };
 
 module.exports = {

@@ -1,62 +1,84 @@
-import { useState } from "react";
-import { useDispatch } from 'react-redux';
-import { uploadImageRequest } from '../../Post/PostActions';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { uploadImageRequest } from "../../Post/PostActions";
+import { Button, CircularProgress, CardMedia } from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-function App() {
+function FileInput() {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [res, setRes] = useState({});
+  const [cloudinaryFile, setCloudinaryFile] = useState({});
   const dispatch = useDispatch();
 
   const handleSelectFile = (e) => {
-    console.log(e.target.files[0]);
-
     setFile(e.target.files[0]);
-    console.log(file);
-};
-
+  };
 
   const handleUpload = async () => {
     setLoading(true);
 
-   
+    try {
+      const fileResponse = await dispatch(uploadImageRequest(file));
+      console.log(fileResponse);
+      if (fileResponse.cloudinaryImage) {
+        setCloudinaryFile(fileResponse.cloudinaryImage);
+      }
+    } catch (error) {
+      console.log(error);
+    }
 
-    dispatch(uploadImageRequest(file));   
+    setLoading(false);
   };
 
   return (
-    <div className="App">
-      <label htmlFor="file" className="btn-grey">
-        {" "}
-        select file
-      </label>
-      {file && <center> {file.name}</center>}
+    <div className="App" style={{ marginTop: "30px" }}>
+      {file && <center>{file.name}</center>}
+      {cloudinaryFile.url && (
+        <CardMedia
+          component="img"
+          src={cloudinaryFile.url}
+          alt="Uploaded"
+          style={{ maxWidth: "100%" }}
+        />
+      )}
       <input
         id="file"
         type="file"
         onChange={handleSelectFile}
         multiple={false}
+        style={{ display: "none" }}
       />
-      <code>
-        {Object.keys(res).length > 0
-          ? Object.keys(res).map((key) => (
-              <p className="output-item" key={key}>
-                <span>{key}:</span>
-                <span>
-                  {typeof res[key] === "object" ? "object" : res[key]}
-                </span>
-              </p>
-            ))
-          : null}
-      </code>
-      {file && (
+
+      {file ? (
         <>
-          <button onClick={handleUpload} className="btn-green">
-            {loading ? "uploading..." : "upload to cloudinary"}
-          </button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleUpload}
+            disabled={loading}
+            className="text-white"
+            startIcon={loading ? <CircularProgress size={20} /> : <CloudUploadIcon />}
+            style={{ marginTop: "10px" }}
+          >
+            {loading ? "Uploading..." : "Upload to Cloudinary"}
+          </Button>
         </>
+      ) : (
+        <label htmlFor="file">
+          <Button
+            component="span"
+            variant="contained"
+            color="primary"
+            className="text-white"
+            startIcon={<CloudUploadIcon />}
+            disabled={loading}
+          >
+            Select File
+          </Button>
+        </label>
       )}
     </div>
   );
 }
-export default App;
+
+export default FileInput;

@@ -24,7 +24,6 @@ export const fetchData = async (endpoint, method = 'get', body) => {
 
 export const fetchMultipartData = async (endpoint, method = 'get', body) => {
   const formData = new FormData();
-  console.log(body);
   if (body) {
     for (const key in body) {
       if (Object.prototype.hasOwnProperty.call(body, key)) {
@@ -32,8 +31,6 @@ export const fetchMultipartData = async (endpoint, method = 'get', body) => {
       }
     }
   }
-
-  console.log(formData.file);
 
   return fetch(`${API_URL}/${endpoint}`, {
     method,

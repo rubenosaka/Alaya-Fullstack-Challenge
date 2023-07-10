@@ -63,23 +63,14 @@ export function deletePostRequest(cuid) {
 export function uploadImage(file) {
   return {
     type: UPLOAD_IMAGE,
-    file,
+    ...file,
   };
 }
 
 export function uploadImageRequest(file) {
-
   return (dispatch) => {
-    console.log(file);
-
-   
-    const formData  = new FormData();
-    formData.append("file", file);
     return fetchMultipartData('posts/cloudinary/upload', 'post', {
       file
-    }).then(res => {
-      console.log(res);
-      dispatch(uploadImage(res));
-    });
+    }).then(res => dispatch(uploadImage(res)));
   };
 }

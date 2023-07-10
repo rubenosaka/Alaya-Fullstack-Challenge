@@ -1,15 +1,15 @@
-import { ADD_POST, ADD_POSTS, DELETE_POST } from './PostActions';
+import { ADD_POST, ADD_POSTS, DELETE_POST, UPLOAD_IMAGE } from './PostActions';
 
 // Initial State
-const initialState = { data: [] };
+const initialState = { data:[]};
 
 const PostReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_POST :
       return {
-        data: [action.post, ...state.data],
+        ...state,
+        posts: action.posts
       };
-
     case ADD_POSTS :
       return {
         data: action.posts,
@@ -19,7 +19,11 @@ const PostReducer = (state = initialState, action) => {
       return {
         data: state.data.filter(post => post.cuid !== action.cuid),
       };
-
+    case UPLOAD_IMAGE :
+        return {
+          ...state,
+          image: action.cloudinaryImage,
+        };
     default:
       return state;
   }
