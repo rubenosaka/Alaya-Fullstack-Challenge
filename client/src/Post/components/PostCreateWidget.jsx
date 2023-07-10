@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { TextField, Button } from '@mui/material'
 import { styled } from '@mui/system';
 import { decodeAuthToken } from '../../Auth/Auth';
+import {Cloudinary} from "@cloudinary/url-gen";
+import FileInput from '../../Form/components/FileInput';
+
 
 const StyledContainer = styled('div')(({ theme }) => ({
   root: {
@@ -23,8 +26,6 @@ const PostCreateWidget = ({ addPost }) => {
   const submit = () => {
     if (state.email && state.title && state.content) {
 
-      console.log();
-
       addPost(state);
     }
   };
@@ -37,12 +38,21 @@ const PostCreateWidget = ({ addPost }) => {
     });
   };
 
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: 'demo'
+    }
+  });
+
+  const myImage = cld.image('sample');
+
   return (
     <StyledContainer className="d-flex flex-column my-4 w-100">
         <h3>Create new post</h3>
-        <TextField variant="filled" label="Author name" name="name" onChange={handleChange} value={state.email} disabled={true}/>
+        <TextField variant="filled" label="Author email" name="email" onChange={handleChange} value={state.email} disabled={true}/>
         <TextField variant="filled" label="Post title" name="title" onChange={handleChange} />
         <TextField variant="filled" multiline rows="4" label="Post content" name="content" onChange={handleChange} />
+        <FileInput />
         <Button className="mt-4" variant="contained" color="primary" onClick={() => submit()} disabled={!state.email || !state.title || !state.content}>
             Submit
         </Button>

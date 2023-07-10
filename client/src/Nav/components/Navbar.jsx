@@ -1,8 +1,9 @@
-import { Toolbar, AppBar, Typography } from '@mui/material';
+import { Toolbar, AppBar, Typography, Box } from '@mui/material';
 import { useMatch, Link } from 'react-router-dom';
 import Menu from './Menu';
 import ProfileButton from './ProfileButton';
 import { getLinkText } from '../../util/helpers';
+import Logo from './../../logo.svg';
 
 function Navbar({ activeSection }) {
   const path = useMatch(activeSection);
@@ -10,13 +11,20 @@ function Navbar({ activeSection }) {
   return (
     <AppBar position="static" className="text-white">
       <Toolbar>
-        <Menu />       
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          <Link href={path.pathname} className="text-white">
-            Alaya Full Stack Challange | {getLinkText(path)}
-          </Link>
-        </Typography>
-        <ProfileButton />
+        <Menu />
+        <Box display="flex" alignItems="center" width="100%">
+          <Box display="flex" alignItems="center">
+            <img src={Logo} alt="Logo" style={{ width: '45px', marginRight: '10px' }} />
+            <Typography variant="h6">
+              <Link href={path.pathname} className="text-white">
+                Alaya Full Stack Challange | {getLinkText(path)}
+              </Link>
+            </Typography>
+          </Box>
+          <Box marginLeft="auto">
+            <ProfileButton />
+          </Box>
+        </Box>
       </Toolbar>
     </AppBar>
   );

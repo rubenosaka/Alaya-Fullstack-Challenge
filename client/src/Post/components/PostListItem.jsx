@@ -1,9 +1,16 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-
+import { decodeAuthToken } from '../../Auth/Auth';
 import { Card, CardContent, Typography, CardActions, Button } from '@mui/material';
 
 function PostListItem({ post, onDelete }) {
+  const decodedToken = decodeAuthToken();
+  const [state] = useState({
+    email:  decodedToken?.email ? decodedToken.email : null
+  });
+ 
+ 
   return (
     <Card className="w-100 my-4">
       <CardContent>
@@ -19,11 +26,11 @@ function PostListItem({ post, onDelete }) {
           From {post.email}
         </Typography>
       </CardContent>
-      <CardActions>
+      {state.email && post.email === state.email && <CardActions>
         <Button size="small" color="secondary" onClick={onDelete}>
           Delete post
         </Button>
-      </CardActions>
+      </CardActions>}
     </Card>
   );
 }

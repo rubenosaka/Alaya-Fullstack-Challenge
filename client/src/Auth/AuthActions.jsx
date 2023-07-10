@@ -1,4 +1,4 @@
-import callApi from '../util/apiCaller';
+import {fetchData} from '../util/apiCaller';
 import { setAuthToken } from './Auth';
 import { AuthActions } from '../Enums/Auth';
 
@@ -36,7 +36,7 @@ export const signupUserRequestRespose = (dispatch, response) => {
 export function signupUserRequest(user) {
   return async (dispatch) => {
     try {
-      const response = await callApi('users/signup', 'post', {      
+      const response = await fetchData('users/signup', 'post', {      
         email: user.email,
         password: user.password,      
       });
@@ -75,7 +75,7 @@ export const loginUserRequestRespose = (dispatch, response) => {
 export function loginUserRequest(user) {
   return async (dispatch) => {
     try {
-      const response = await callApi('users/login', 'post', {      
+      const response = await fetchData('users/login', 'post', {      
         email:  user.email,
         password: user.password,      
       });
