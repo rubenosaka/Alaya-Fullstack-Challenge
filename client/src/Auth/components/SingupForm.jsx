@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { signupUserRequest } from '../AuthActions';
-import { validateSignupForm } from '../ValidationUtils';
+import { validateForm } from '../ValidationUtils';
 import { Card, CardContent, CardActions, Typography, Button, Grid } from '@mui/material';
 import FormErrors from '../../Form/components/FormErrors';
 import LabeledInput from '../../Form/components/LabeledInput';
@@ -11,10 +11,16 @@ import LabeledInput from '../../Form/components/LabeledInput';
 const SignupForm = () => {
   const dispatch = useDispatch();
   const error = useSelector(state => state.auth.error);
-  const decodedToken = decodeAuthToken();
+  const isAuthenticated = useSelector((state) => {
+    if(state.auth.user){
+      return state.auth.user
+    }
+    return null;
+  }); 
+
   
   const [formData, setFormData] = useState({
-    username: '',
+    email:  '',
     password: '',
     confirmPassword: '',
   });
@@ -22,8 +28,8 @@ const SignupForm = () => {
   const [errorMessages, setErrorMessages] = useState([]);
 
   const isFormValid = () => {
-    const errors = validateSignupForm(
-      formData.username,
+    const errors = validateForm(
+      formData.email,
       formData.password,
       formData.confirmPassword
     );
@@ -59,6 +65,11 @@ const SignupForm = () => {
     }));
   };
 
+  
+  if (isAuthenticated) {
+    return <Navigate to="/new-post" />;
+  }
+
   return (
     <Grid
       container
@@ -77,10 +88,10 @@ const SignupForm = () => {
           <form onSubmit={handleSignup}>
             <Grid item xs={12} className="mb-3">
               <LabeledInput
-                label="Username"
-                id="username"
+                label="Email"
+                id="email"
                 type="text"
-                value={formData.username}
+                value={formData.email}
                 onChange={handleInputChange}
               />
             </Grid>

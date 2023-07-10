@@ -25,7 +25,7 @@ getPosts = async (req, res) => {
  * @returns void
  */
 addPost = async (req, res) => {
-  if (!req.body.post.name || !req.body.post.title || !req.body.post.content) {
+  if (!req.body.post.email || !req.body.post.title || !req.body.post.content) {
     res.status(403).end();
   }
 
@@ -33,7 +33,7 @@ addPost = async (req, res) => {
 
   // Let's sanitize inputs
   newPost.title = sanitizeHtml(newPost.title);
-  newPost.name = sanitizeHtml(newPost.name);
+  newPost.email = sanitizeHtml(newPost.email);
   newPost.content = sanitizeHtml(newPost.content);
 
   newPost.slug = slug(newPost.title.toLowerCase(), { lowercase: true });

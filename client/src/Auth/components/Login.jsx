@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
 import { loginUserRequest } from '../AuthActions';
-import { validateLoginForm } from '../ValidationUtils';
+import { validateForm } from '../ValidationUtils';
 import { Card, CardContent, Typography, Button, Grid, CardActions } from '@mui/material';
 import LabeledInput from '../../Form/components/LabeledInput';
 import FormErrors from '../../Form/components/FormErrors';
@@ -19,15 +19,15 @@ const Login = () => {
   }); 
 
   const [formData, setFormData] = useState({
-    username: 'Rubenosaka',
+    email:  'rubenosaka@gmail.com',
     password: 'Osaka@22',
   });
 
   const [errorMessages, setErrorMessages] = useState([]);
 
   const isFormValid = () => {
-    const errors = validateLoginForm(
-      formData.username,
+    const errors = validateForm(
+      formData.email,
       formData.password,
     );
     setErrorMessages(errors);
@@ -82,10 +82,10 @@ const Login = () => {
             <form onSubmit={handleLogin}>
               <Grid item xs={12} className="mb-3">
                 <LabeledInput
-                  label="Username"
-                  id="username"
+                  label="Email"
+                  id="email"
                   type="text"
-                  value={formData.username}
+                  value={formData.email}
                   onChange={handleInputChange}
                   autoComplete={true}
                 />
@@ -107,7 +107,7 @@ const Login = () => {
           </CardContent>
           <CardActions>
             <Typography variant="body2" color="textSecondary" className="login-text">
-              Not registered? <Link to="/register" className="login-link">Sign up here</Link>
+              Not registered? <Link to="/sign-up" className="login-link">Sign up here</Link>
             </Typography>
           </CardActions>
         </Card>

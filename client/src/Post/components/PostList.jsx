@@ -1,7 +1,4 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-
-// Import Components
 import PostListItem from './PostListItem';
 
 function PostList(props) {
@@ -23,7 +20,7 @@ function PostList(props) {
 
 PostList.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    email:  PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     slug: PropTypes.string.isRequired,

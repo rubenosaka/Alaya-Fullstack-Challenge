@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
@@ -17,7 +16,7 @@ function PostListItem({ post, onDelete }) {
           {post.content}
         </Typography>
         <Typography color="textSecondary" component="p" className="mt-3 font-italic">
-          From {post.name}
+          From {post.email}
         </Typography>
       </CardContent>
       <CardActions>
@@ -31,7 +30,7 @@ function PostListItem({ post, onDelete }) {
 
 PostListItem.propTypes = {
   post: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    email:  PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     slug: PropTypes.string.isRequired,

@@ -5,20 +5,20 @@ const { secretKey } = require('../config');
 
 exports.signup = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(409).json({ error: 'Username already exists' });
+      return res.status(409).json({ error: 'Email already exists' });
     }
 
     const newUser = new User({
-      username,
+      email,
       password,
     });
 
     const user = await newUser.save();
-    const token = jwt.sign({ userId: user._id, userName: user.username }, secretKey, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id, email:  user.email }, secretKey, { expiresIn: '1h' });
 
     res.status(201).json({ message: 'User registered successfully', user, token });
   } catch (error) {
@@ -29,9 +29,9 @@ exports.signup = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
@@ -39,7 +39,7 @@ exports.login = async (req, res) => {
     if (user.password !== password) {
       return res.status(401).json({ error: 'Incorrect password' });
     }
-    const token = jwt.sign({ userId: user._id, userName: user.username }, secretKey, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id, email:  user.email }, secretKey, { expiresIn: '1h' });
     res.status(200).json({ message: 'Login successful',  user, token });
   } catch (error) {
     console.error(error);

@@ -37,7 +37,7 @@ export function signupUserRequest(user) {
   return async (dispatch) => {
     try {
       const response = await callApi('users/signup', 'post', {      
-        username: user.username,
+        email: user.email,
         password: user.password,      
       });
       signupUserRequestRespose(dispatch, response);     
@@ -76,7 +76,7 @@ export function loginUserRequest(user) {
   return async (dispatch) => {
     try {
       const response = await callApi('users/login', 'post', {      
-        username: user.username,
+        email:  user.email,
         password: user.password,      
       });
       loginUserRequestRespose(dispatch, response);  

@@ -11,10 +11,10 @@ const ProfileButton = () => {
     window.location.reload();
   };
 
-  if (decodedToken && decodedToken.userName) {
+  if (decodedToken && decodedToken.email) {
     return (
       <>
-        <Button color="inherit">Welcome {decodedToken.userName}</Button>
+        <Button color="inherit">Welcome {decodedToken.email}</Button>
         <IconButton color="inherit" onClick={handleLogout}>
           <ExitToAppIcon />
         </IconButton>
