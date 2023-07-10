@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { IconButton, Drawer, List, ListItem, ListItemText, Divider, Button } from '@mui/material';
+import { useState } from 'react';
+import { IconButton, Drawer, List, ListItem, ListItemText, Divider } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
@@ -50,7 +50,7 @@ const SideMenu = () => {
           
           <MenuItem icon={<HomeIcon />} text="Home" to="/" />
           <MenuItem icon={<FormatListBulletedIcon />} text="Post List" to="/posts" />
-          <MenuItem icon={<AddIcon />} text="Create New Post" to="/posts" />
+          <MenuItem icon={<AddIcon />} text="Create New Post" to="/new-post" />
           <Divider />
           <MenuItem icon={<LoginIcon />} text="Login" to="/login" />
           <MenuItem icon={<PersonAddIcon />} text="Register" to="/register" />

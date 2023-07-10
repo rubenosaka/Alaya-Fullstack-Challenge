@@ -62,7 +62,7 @@ const Login = () => {
   };
 
   if (isAuthenticated) {
-    return <Navigate to="/posts" />;
+    return <Navigate to="/new-post" />;
   }
   return (
     <Grid
