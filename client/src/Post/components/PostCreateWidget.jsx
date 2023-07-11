@@ -46,7 +46,6 @@ const PostCreateWidget = ({ addPost }) => {
   };
 
   const handleSelectFile = (image) => {
-    console.log(image);
     setState(prevState => ({
       ...prevState,
       image

@@ -8,6 +8,8 @@ import LoginIcon from '@mui/icons-material/Login';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
+import { decodeAuthToken } from '../../Auth/Auth';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 const MenuItem = ({ icon, text, to }) => {
   return (
@@ -19,10 +21,17 @@ const MenuItem = ({ icon, text, to }) => {
 };
 
 const SideMenu = () => {
+  const decodedToken = decodeAuthToken();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = () => {
+    console.log('logout');
+    localStorage.removeItem('token');
+    window.location.reload(); 
   };
 
   return (
@@ -49,11 +58,15 @@ const SideMenu = () => {
           </ListItem>
           
           <MenuItem icon={<HomeIcon />} text="Home" to="/" />
-          <MenuItem icon={<FormatListBulletedIcon />} text="Post List" to="/posts" />
-          <MenuItem icon={<AddIcon />} text="Create New Post" to="/new-post" />
+          {decodedToken && <MenuItem icon={<FormatListBulletedIcon />} text="Post List" to="/posts" />}
+          {decodedToken && <MenuItem icon={<AddIcon />} text="Create New Post" to="/new-post" />}
           <Divider />
-          <MenuItem icon={<LoginIcon />} text="Login" to="/login" />
-          <MenuItem icon={<PersonAddIcon />} text="Register" to="/register" />
+          {!decodedToken && <MenuItem icon={<LoginIcon />} text="Login" to="/login" />}
+          {!decodedToken && <MenuItem icon={<PersonAddIcon />} text="Register" to="/sign-up" />}
+          {decodedToken && <ListItem button onClick={handleLogout}>
+                <ExitToAppIcon />
+            <ListItemText primary="LogOut" primaryTypographyProps={{ sx: { color: 'grey.600', marginLeft: '8px' } }} />
+          </ListItem>}
         </List>
       </Drawer>
     </>

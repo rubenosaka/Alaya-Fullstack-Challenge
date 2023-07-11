@@ -22,7 +22,6 @@ const theme = createTheme ({
 });
 
 function App(props) {
-    console.log(props.store);
     const location = useLocation(); 
      return (
       <ThemeProvider theme={theme}>            
