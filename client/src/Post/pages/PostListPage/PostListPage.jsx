@@ -38,13 +38,14 @@ const PostListPage = ({ showAddPost }) => {
       </div>
       <hr />
       <div className="row">
-        {showAddPost && <div className="col-6">
+        {showAddPost && <div className="col-4">
           <PostCreateWidget addPost={handleAddPost}  />
         </div>}
-       
-        <div className="col-6">
-          {posts && posts.length > 0 ? <PostList handleDeletePost={handleDeletePost} posts={posts} /> : 'Loading...'}
+        <div className={showAddPost ? 'col-8' : 'col-12'}>
+            {posts && posts.length > 0 ? <PostList handleDeletePost={handleDeletePost} posts={posts} showAddPost={showAddPost} /> : 'Loading...'}
         </div>
+
+
       </div>
     </div>
   );

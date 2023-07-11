@@ -1,4 +1,4 @@
-import { useState, useEffect  } from "react";
+import React, { useState, useEffect  } from "react";
 import { useDispatch } from "react-redux";
 import { uploadImageRequest } from "../../Post/PostActions";
 import { styled } from '@mui/system';

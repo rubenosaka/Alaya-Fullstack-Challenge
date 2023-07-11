@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { TextField, Button } from '@mui/material'
+import { TextField, Button } from '@mui/material';
 import { styled } from '@mui/system';
 import { decodeAuthToken } from '../../Auth/Auth';
 import FileInput from '../../Form/components/FileInput';
@@ -27,7 +27,6 @@ const PostCreateWidget = ({ addPost }) => {
 
   const submit = async () => {
     if (state.email && state.title && state.content) {
-      console.log(state);
       await addPost(state);
       setState(prevState => ({
         ...prevState,

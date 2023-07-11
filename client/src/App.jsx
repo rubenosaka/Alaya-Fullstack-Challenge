@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import './Styles/App.css';
+import './assets/css/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -22,6 +22,7 @@ const theme = createTheme ({
 });
 
 function App(props) {
+    console.log(props.store);
     const location = useLocation(); 
      return (
       <ThemeProvider theme={theme}>            

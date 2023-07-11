@@ -49,7 +49,6 @@ addPost = async (req, res) => {
   newPost.slug = slug(newPost.title.toLowerCase(), { lowercase: true });
   newPost.cuid = cuid();
   newPost.save((err, saved) => {
-    console.log(saved);
     if (err) {
       res.status(500).send(err);
     }
@@ -98,8 +97,6 @@ deletePost = async (req, res) => {
  * @returns string
  */
 imageUpload = async (req, res) => {
-
-  console.log(req.file);
   const cloudinaryImage = await cloudinary.uploader
   .upload(req.file.path);
   

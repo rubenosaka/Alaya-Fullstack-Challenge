@@ -10,7 +10,6 @@ export const signupSuccess = (user) => {
 };
 
 export const signupFailure = (error) => {
-  console.log(error);
   return {
     type: AuthActions.SIGNUP_FAILURE,
     payload: error,
@@ -18,7 +17,6 @@ export const signupFailure = (error) => {
 };
 
 export const setAuthTokenAndRedirect = (token) => {
-  console.log('token', token);
   setAuthToken(token);
 };
 
