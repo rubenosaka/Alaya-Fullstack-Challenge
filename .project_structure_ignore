@@ -1,8 +1,0 @@
-bash
-node_modules
-dist
-*.log
-.git
-client/node_modules
-server/node_modules
-server/uploads

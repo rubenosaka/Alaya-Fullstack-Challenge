@@ -3,7 +3,40 @@
 
 ## Setup Documentation
 
+IMPORTANT: .env is not in the gitignore for practical reasons, but it should be filled in with the corresponding data.
+You need to create an account at https://cloudinary.com/. Once created, you can find the data in the Access Keys section of the configuration panel. Fill in the variables in the .env file.
 
+git clone https://github.com/rubenosaka/Alaya-Fullstack-Challenge.git
+
+Since the project is built with Vite, we need to make sure that we have Vite installed globally:
+npm install -g create-vite
+
+A MongoDB database is used, so we need to have it installed:
+https://www.mongodb.com/try/download/community
+
+Now you need to navigate to the server folder and run npm install:
+cd server
+npm install
+
+Next, we will go back to the root folder and navigate to the client folder:
+cd ..
+cd client
+npm install
+
+Now we need to launch both services with:
+npm run dev
+
+And in the server:
+cd ..
+cd server
+npm run dev
+
+I have created a test for one of the components (PostCreateWidget), it is performed with Jest. Simply run the following command in the client:
+npm run test
+
+cd ..
+cd client
+npm run test
 
 ## Show us your skills :)
 
