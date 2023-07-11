@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import './App.css';
+import './Styles/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';

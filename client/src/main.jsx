@@ -3,7 +3,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 import posts from './Post/PostReducer';
 import auth from './Auth/AuthReducer';
-import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 

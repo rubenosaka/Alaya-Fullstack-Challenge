@@ -7,8 +7,7 @@ const PostReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_POST :
       return {
-        ...state,
-        posts: action.posts
+        data: [action.post, ...state.data],
       };
     case ADD_POSTS :
       return {

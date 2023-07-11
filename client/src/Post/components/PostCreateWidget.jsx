@@ -24,7 +24,7 @@ const PostCreateWidget = ({ addPost }) => {
 
   const submit = () => {
     if (state.email && state.title && state.content) {
-
+      console.log(state);
       addPost(state);
     }
   };
@@ -37,6 +37,14 @@ const PostCreateWidget = ({ addPost }) => {
     });
   };
 
+  const handleSelectFile = (image) => {
+    console.log(image);
+    setState(prevState => ({
+      ...prevState,
+      image
+    }));
+  };
+
 
   return (
     <StyledContainer className="d-flex flex-column my-4 w-100">
@@ -44,7 +52,7 @@ const PostCreateWidget = ({ addPost }) => {
         <TextField variant="filled" label="Author email" name="email" onChange={handleChange} value={state.email} disabled={true}/>
         <TextField variant="filled" label="Post title" name="title" onChange={handleChange} />
         <TextField variant="filled" multiline rows="4" label="Post content" name="content" onChange={handleChange} />
-        <FileInput />
+        <FileInput selectFile={handleSelectFile} />
         <Button className="mt-4" variant="contained" color="primary" onClick={() => submit()} disabled={!state.email || !state.title || !state.content}>
             Submit
         </Button>

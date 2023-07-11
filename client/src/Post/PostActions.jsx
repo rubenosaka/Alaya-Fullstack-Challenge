@@ -21,6 +21,7 @@ export function addPostRequest(post) {
         email:  post.email,
         title: post.title,
         content: post.content,
+        image: post.image?.trim(),
       },
     }).then(res => dispatch(addPost(res.post)));
   };

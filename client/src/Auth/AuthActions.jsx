@@ -85,10 +85,3 @@ export function loginUserRequest(user) {
     }
   };
 }
-
-export const logoutUser = () => {
-  localStorage.removeItem('token');
-  return {
-    type: AuthActions.LOGOUT,
-  };
-};

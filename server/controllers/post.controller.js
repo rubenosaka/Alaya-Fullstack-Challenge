@@ -45,10 +45,11 @@ addPost = async (req, res) => {
   newPost.title = sanitizeHtml(newPost.title);
   newPost.email = sanitizeHtml(newPost.email);
   newPost.content = sanitizeHtml(newPost.content);
-
+  
   newPost.slug = slug(newPost.title.toLowerCase(), { lowercase: true });
   newPost.cuid = cuid();
   newPost.save((err, saved) => {
+    console.log(saved);
     if (err) {
       res.status(500).send(err);
     }
