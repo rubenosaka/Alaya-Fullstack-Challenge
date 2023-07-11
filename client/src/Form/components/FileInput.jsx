@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect  } from "react";
 import { useDispatch } from "react-redux";
 import { uploadImageRequest } from "../../Post/PostActions";
 import { styled } from '@mui/system';
 import { Button, CircularProgress, CardMedia } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-const FileInput = ({ selectFile }) => {
+const FileInput = ({ selectFile, image }) => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [cloudinaryFile, setCloudinaryFile] = useState({});
+  const [cloudinaryFile, setCloudinaryFile] = useState(image);
   const dispatch = useDispatch();
 
   const handleSelectFile = (e) => {
@@ -21,7 +21,7 @@ const FileInput = ({ selectFile }) => {
     try {
       const fileResponse = await dispatch(uploadImageRequest(file));
       if (fileResponse.cloudinaryImage) {
-        setCloudinaryFile(fileResponse.cloudinaryImage);
+        setCloudinaryFile(fileResponse.cloudinaryImage.url);
         selectFile(fileResponse.cloudinaryImage.url);
       }
     } catch (error) {
@@ -33,22 +33,30 @@ const FileInput = ({ selectFile }) => {
 
   const handleRemoveFile = async () => {
     setFile(null);
-    setCloudinaryFile({});
+    setCloudinaryFile(null);
+    selectFile('');
   };
 
-  const ClodinaryCard = styled(CardMedia)(() => ({
+  const CloudinaryCard = styled(CardMedia)(() => ({
     maxWidth: "100%", height:"250px", width: "auto", margin:"10px 0", padding: "5px", border: "1px solid #ccc"
   }));
+
+  useEffect(() => {
+    if (image !== cloudinaryFile) {
+      setFile(null);
+      setCloudinaryFile(image);
+    }
+  }, [image, cloudinaryFile]);
   
 
   return (
     <div className="fileinput" style={{ marginTop: "30px" }}>
       {file && <center>{file.name}</center>}
       <div style={{ display: "flex", justifyContent: "center" }}>
-        {cloudinaryFile.url && (
-          <ClodinaryCard
+        {cloudinaryFile && (
+          <CloudinaryCard
             component="img"
-            src={cloudinaryFile.url}
+            src={cloudinaryFile}
             alt="Uploaded"
           />
         )}
@@ -61,7 +69,7 @@ const FileInput = ({ selectFile }) => {
         style={{ display: "none" }}
       />
 
-      {cloudinaryFile.url ? 
+      {cloudinaryFile ? 
       <Button
           variant="contained"
           color="primary"

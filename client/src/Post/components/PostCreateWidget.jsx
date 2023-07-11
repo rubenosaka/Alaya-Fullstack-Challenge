@@ -18,23 +18,32 @@ const StyledContainer = styled('div')(({ theme }) => ({
 const PostCreateWidget = ({ addPost }) => {
   const decodedToken = decodeAuthToken();
   const [state, setState] = useState({
-    email:  decodedToken?.email ? decodedToken.email : null
+    email:  decodedToken?.email ? decodedToken.email : '',
+    title: '',
+    content: '',
+    image: ''
   });
  
 
-  const submit = () => {
+  const submit = async () => {
     if (state.email && state.title && state.content) {
       console.log(state);
-      addPost(state);
+      await addPost(state);
+      setState(prevState => ({
+        ...prevState,
+        title: '',
+        content: '',
+        image: ''
+      }));
     }
   };
 
   const handleChange = (evt) => {
-    const value = evt.target.value;
-    setState({
-        ...state,
-        [evt.target.name]: value
-    });
+    const { name, value } = evt.target;
+    setState(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
   };
 
   const handleSelectFile = (image) => {
@@ -50,9 +59,9 @@ const PostCreateWidget = ({ addPost }) => {
     <StyledContainer className="d-flex flex-column my-4 w-100">
         <h3>Create new post</h3>
         <TextField variant="filled" label="Author email" name="email" onChange={handleChange} value={state.email} disabled={true}/>
-        <TextField variant="filled" label="Post title" name="title" onChange={handleChange} />
-        <TextField variant="filled" multiline rows="4" label="Post content" name="content" onChange={handleChange} />
-        <FileInput selectFile={handleSelectFile} />
+        <TextField variant="filled" label="Post title" name="title" onChange={handleChange} value={state.title}/>
+        <TextField variant="filled" multiline rows="4" label="Post content" name="content" onChange={handleChange} value={state.content}/>
+        <FileInput selectFile={handleSelectFile} image={state.image} />
         <Button className="mt-4" variant="contained" color="primary" onClick={() => submit()} disabled={!state.email || !state.title || !state.content}>
             Submit
         </Button>
